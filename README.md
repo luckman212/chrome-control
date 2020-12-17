@@ -9,7 +9,7 @@ Forked from [bit2pixel/chrome-control](https://github.com/bit2pixel/chrome-contr
 
 - removed a couple of gremlins
 - matching on `title` + `url` instead of just url, ref: [#9](https://github.com/bit2pixel/chrome-control/issues/9)
-- integrated efficiency improvement from [AnthoPakPak's #7](https://github.com/bit2pixel/chrome-control/pull/7)
+- integrated speedup from [AnthoPakPak's #7](https://github.com/bit2pixel/chrome-control/pull/7)
 
 ## Setup
 
