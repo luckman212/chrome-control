@@ -2,7 +2,7 @@
 
 /**
  * A JXA script and an Alfred Workflow for controlling Google Chrome (Javascript for Automation). 
- * Also see my "How I Navigate Hundreds of Tabs on Chrome with JXA and Alfred" article at [1]
+ * Also see my "How I Navigate Hundreds of Tabs on Chrome with JXA and Alfred" article at [1]
  * if you're interested in learning how I created the workflow.
  * [1] https://medium.com/@bit2pixel/how-i-navigate-hundreds-of-tabs-on-chrome-with-jxa-and-alfred-9bbf971af02b  
  */
@@ -116,6 +116,7 @@ function list() {
                 // Alfred specific properties
                 'arg': `${winIdx},${tabIdx}`,
                 'subtitle': url,
+                'match': title + ' ' + url
             }
         }
     }
