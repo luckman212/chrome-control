@@ -106,7 +106,9 @@ function list() {
         for (var tabIdx = 0; tabIdx < allTabsTitle[winIdx].length; tabIdx ++) {
             let title = allTabsTitle[winIdx][tabIdx]
             let url = allTabsUrls[winIdx][tabIdx]
-
+            let pathArray = url.split('/')
+            let basedomain = pathArray[2]
+            let domaincomponents = basedomain.replace('.',' ')
             titleToUrl[title] = {
                 'title': title || 'No Title',
                 'url': url,
@@ -116,7 +118,7 @@ function list() {
                 // Alfred specific properties
                 'arg': `${winIdx},${tabIdx}`,
                 'subtitle': url,
-                'match': title + ' ' + url
+                'match': title + ' ' + basedomain + ' ' + domaincomponents
             }
         }
     }
