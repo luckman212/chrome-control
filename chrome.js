@@ -10,8 +10,20 @@
 ObjC.import('stdlib')
 ObjC.import('Foundation')
 
-const chrome = Application('Google Chrome')
-chrome.includeStandardAdditions = true
+const Chrome = Application('Google Chrome')
+Chrome.includeStandardAdditions = true
+var name = Chrome.name()
+var isRunning = Chrome.running()
+if (!isRunning) {
+  console.log(name + ' is not running')
+  $.exit(1)
+} else {
+  var winCount = Chrome.windows.length
+  if (!winCount) {
+    console.log('no windows')
+    $.exit(1)
+  }
+}
 
 // Mode flags
 const MODE_CLI = 0    // Ask questions in command line
@@ -98,8 +110,8 @@ function chromeControl(argv) {
 function list() {
     // Iterate all tabs in all windows
     // Double entries arrays matching windows/tabs indexes (Using this improves a lot the performances)
-    let allTabsTitle = chrome.windows.tabs.title()
-    let allTabsUrls = chrome.windows.tabs.url()
+    let allTabsTitle = Chrome.windows.tabs.title()
+    let allTabsUrls = Chrome.windows.tabs.url()
 
     var titleToUrl = {}
     for (var winIdx = 0; winIdx < allTabsTitle.length; winIdx++) {
@@ -137,7 +149,7 @@ function list() {
 function closeTab(arg) {
     let { winIdx, tabIdx } = parseWinTabIdx(arg)
 
-    let tabToClose = chrome.windows[winIdx].tabs[tabIdx]
+    let tabToClose = Chrome.windows[winIdx].tabs[tabIdx]
 
     // Ask the user before closing tab
     areYouSure([tabToClose], 'Close this tab?', 'Couldn\'t find any matching tabs')
@@ -160,7 +172,7 @@ function closeByKeyword(cmd, keywords) {
 
     // Iterate all tabs in all windows and compare the property returned
     // by `getProperty` to the given keywords
-    chrome.windows().forEach(window => {
+    Chrome.windows().forEach(window => {
         window.tabs().forEach(tab => {
             keywords.forEach(keyword => {
                 if (getProperty(tab).toLowerCase().includes(keyword.toLowerCase())) {
@@ -180,10 +192,10 @@ function closeByKeyword(cmd, keywords) {
 // Focus on a specific tab
 function focus(arg) {
     let { winIdx, tabIdx } = parseWinTabIdx(arg)
-    chrome.windows[winIdx].visible = true
-    chrome.windows[winIdx].activeTabIndex = tabIdx + 1 // Focous on tab
-    chrome.windows[winIdx].index = 1 // Focus on this specific Chrome window
-    chrome.activate()
+    Chrome.windows[winIdx].visible = true
+    Chrome.windows[winIdx].activeTabIndex = tabIdx + 1 // Focous on tab
+    Chrome.windows[winIdx].index = 1 // Focus on this specific Chrome window
+    Chrome.activate()
 }
 
 // Close duplicate tabs
@@ -191,7 +203,7 @@ function dedup() {
     let urls = {}
     let dups = []
 
-    chrome.windows().forEach(window => {
+    Chrome.windows().forEach(window => {
         window.tabs().forEach(tab => {
             const url = tab.url();
             if (urls[url] === undefined) {
@@ -218,8 +230,8 @@ const alert = function (msg) {
     if (MODE === MODE_YES) {
         return
     }
-    chrome.activate()
-    chrome.displayAlert(msg)
+    Chrome.activate()
+    Chrome.displayAlert(msg)
 }
 
 // Grab input from the command line and return it
@@ -227,8 +239,8 @@ const prompt = function (msg) {
     if (MODE === MODE_YES) {
         return 'y'
     } else if (MODE === MODE_UI) {
-        chrome.activate()
-        chrome.displayDialog(msg)
+        Chrome.activate()
+        Chrome.displayDialog(msg)
         return
     }
     println(`\n${msg} (y/N)`)
